@@ -6,7 +6,7 @@ interface SearchResultItemProps {
   searchTerm: string;
 }
 
-const SearchResultItem = ({ result, searchTerm }: SearchResultItemProps) => {
+function SearchResultItem({ result, searchTerm }: SearchResultItemProps) {
   const highlightTerm = (text: string, term: string) => {
     const parts = text.split(new RegExp(`(${term})`, "gi"));
     return parts.map((part, index) =>
@@ -29,6 +29,6 @@ const SearchResultItem = ({ result, searchTerm }: SearchResultItemProps) => {
       ) : null}
     </div>
   );
-};
+}
 
 export default SearchResultItem;

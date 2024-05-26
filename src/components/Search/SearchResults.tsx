@@ -3,8 +3,18 @@ import SearchResultItem from "./SearchResultItem";
 import { useNavigate } from "react-router-dom";
 import { Entity } from "@/types/entity.types";
 import { API_BASE_URL } from "@/constants";
+import { Separator } from "@/components/ui/separator";
+import { ArrowRightCircle } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-const SearchResults = () => {
+function SearchResults() {
   const { results, searchTerm, loading, error } = useSearchStore();
   const navigate = useNavigate();
 
@@ -26,27 +36,38 @@ const SearchResults = () => {
       {!loading &&
         !error &&
         Object.keys(results).map((category) => (
-          <div key={category} className="p-2">
-            <h3 className="text-lg font-semibold capitalize">{category}</h3>
-            {results[category].map((result: Entity) => (
-              <div
-                key={result.url}
-                onClick={() => handleResultClick(result)}
-                className="cursor-pointer"
+          <Table key={category} className="p-2">
+            <TableHeader>
+              <TableHead className="text-lg font-semibold capitalize">
+                {category}
+              </TableHead>
+            </TableHeader>
+            <Separator />
+            <TableBody>
+              {results[category].map((result: Entity) => (
+                <TableRow
+                  key={result.url}
+                  onClick={() => handleResultClick(result)}
+                  className="cursor-pointer"
+                >
+                  <TableCell className="py-1">
+                    <SearchResultItem result={result} searchTerm={searchTerm} />
+                  </TableCell>
+                </TableRow>
+              ))}
+              <TableCell
+                className="text-blue-500 cursor-pointer flex justify-start items-center gap-3"
+                onClick={() => handleViewAllClick(category)}
               >
-                <SearchResultItem result={result} searchTerm={searchTerm} />
-              </div>
-            ))}
-            <button
-              className="text-blue-500"
-              onClick={() => handleViewAllClick(category)}
-            >
-              View All
-            </button>
-          </div>
+                View All {category}
+                <ArrowRightCircle size={16} />
+              </TableCell>
+              <Separator />
+            </TableBody>
+          </Table>
         ))}
     </div>
   );
-};
+}
 
 export default SearchResults;

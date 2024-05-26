@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { Entity } from "@/types/entity.types";
-import { api } from "./api";
+import axios from "axios";
+import { RawEntity, Entity, EntityType } from "@/types/entity.types";
 import { API_BASE_URL } from "@/constants";
+import { transformEntity } from "@/utils/transform";
 
 interface EntityState {
-  entities: { [key: string]: Entity[] };
+  entities: { [key in EntityType]?: Entity[] };
   singleEntity: Entity | null;
   loading: boolean;
   error: string | null;
@@ -12,10 +13,10 @@ interface EntityState {
   previous: string | null;
   count: number | null;
   currentPage: number;
-  addEntity: (type: string, entity: Entity) => void;
-  removeEntity: (type: string, id: string) => void;
-  updateEntity: (type: string, id: string, updatedEntity: Entity) => void;
-  fetchEntities: (type: string, pageUrl?: string) => void;
+  addEntity: (type: EntityType, entity: Entity) => void;
+  removeEntity: (type: EntityType, id: string) => void;
+  updateEntity: (type: EntityType, id: string, updatedEntity: Entity) => void;
+  fetchEntities: (type: EntityType, pageUrl?: string) => void;
   fetchSingleEntity: (relativeUrl: string) => void;
 }
 
@@ -39,28 +40,31 @@ export const useEntityStore = create<EntityState>((set) => ({
     set((state) => ({
       entities: {
         ...state.entities,
-        [type]: state.entities[type].filter((entity) => entity.url !== id),
+        [type]: state.entities[type]?.filter((entity) => entity.uuid !== id),
       },
     })),
   updateEntity: (type, id, updatedEntity) =>
     set((state) => ({
       entities: {
         ...state.entities,
-        [type]: state.entities[type].map((entity) =>
-          entity.url === id ? updatedEntity : entity
+        [type]: state.entities[type]?.map((entity) =>
+          entity.uuid === id ? updatedEntity : entity
         ),
       },
     })),
-  fetchEntities: async (type: string, pageUrl?: string) => {
+  fetchEntities: async (type: EntityType, pageUrl?: string) => {
     set({ loading: true, error: null });
     const url = pageUrl || `${API_BASE_URL}${type}`;
     try {
-      const response = await api.get(url);
+      const response = await axios.get(url);
       const page = pageUrl ? new URL(pageUrl).searchParams.get("page") : "1";
+      const transformedEntities = response.data.results.map(
+        (rawEntity: RawEntity) => transformEntity(rawEntity, type)
+      );
       set((state) => ({
         entities: {
           ...state.entities,
-          [type]: response.data.results,
+          [type]: transformedEntities,
         },
         next: response.data.next,
         previous: response.data.previous,
@@ -75,8 +79,12 @@ export const useEntityStore = create<EntityState>((set) => ({
   fetchSingleEntity: async (relativeUrl: string) => {
     set({ loading: true, error: null, singleEntity: null });
     try {
-      const response = await api.get(`${relativeUrl}`);
-      set({ singleEntity: response.data, loading: false });
+      const response = await axios.get(`${API_BASE_URL}${relativeUrl}`);
+      const entityType = relativeUrl.split("/")[0] as EntityType;
+      set({
+        singleEntity: transformEntity(response.data, entityType),
+        loading: false,
+      });
     } catch (error) {
       set({ error: "Failed to fetch entity", loading: false });
     }

@@ -2,21 +2,17 @@ import { useState, useEffect } from "react";
 import { useSearchStore } from "@/store/searchStore";
 import SearchResults from "./SearchResults";
 import { Input } from "@/components/ui/input";
+import useDebounce from "@/hooks/useDebounce";
 
-const SearchField = () => {
+function SearchField() {
   const [term, setTerm] = useState("");
+  const debouncedTerm = useDebounce(term, 300);
   const { setSearchTerm, fetchResults } = useSearchStore();
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setSearchTerm(term);
-      fetchResults(term);
-    }, 300);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [term, setSearchTerm, fetchResults]);
+    setSearchTerm(debouncedTerm);
+    fetchResults(debouncedTerm);
+  }, [debouncedTerm, setSearchTerm, fetchResults]);
 
   return (
     <div className="relative">
@@ -25,11 +21,10 @@ const SearchField = () => {
         value={term}
         onChange={(e) => setTerm(e.target.value)}
         placeholder="Search..."
-        // className="w-full p-2 border border-gray-300 rounded"
       />
       <SearchResults />
     </div>
   );
-};
+}
 
 export default SearchField;

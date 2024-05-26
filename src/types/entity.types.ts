@@ -1,4 +1,12 @@
-export interface People {
+export enum EntityType {
+  People = "people",
+  Planets = "planets",
+  Films = "films",
+  Starships = "starships",
+  Vehicles = "vehicles",
+  Species = "species",
+}
+export interface RawPeople {
   name: string;
   birth_year: string;
   eye_color: string;
@@ -17,7 +25,7 @@ export interface People {
   edited: string;
 }
 
-export interface Film {
+export interface RawFilm {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -34,7 +42,7 @@ export interface Film {
   edited: string;
 }
 
-export interface Starship {
+export interface RawStarship {
   name: string;
   model: string;
   starship_class: string;
@@ -55,7 +63,7 @@ export interface Starship {
   edited: string;
 }
 
-export interface Vehicle {
+export interface RawVehicle {
   name: string;
   model: string;
   vehicle_class: string;
@@ -74,7 +82,7 @@ export interface Vehicle {
   edited: string;
 }
 
-export interface Species {
+export interface RawSpecies {
   name: string;
   classification: string;
   designation: string;
@@ -92,7 +100,7 @@ export interface Species {
   edited: string;
 }
 
-export interface Planet {
+export interface RawPlanet {
   name: string;
   diameter: string;
   rotation_period: string;
@@ -107,6 +115,46 @@ export interface Planet {
   url: string;
   created: string;
   edited: string;
+}
+
+export type RawEntity =
+  | RawPeople
+  | RawFilm
+  | RawStarship
+  | RawVehicle
+  | RawSpecies
+  | RawPlanet;
+
+// types/entity.types.ts
+
+export interface People extends RawPeople {
+  uuid: string;
+  entityType: EntityType.People;
+}
+
+export interface Film extends RawFilm {
+  uuid: string;
+  entityType: EntityType.Films;
+}
+
+export interface Starship extends RawStarship {
+  uuid: string;
+  entityType: EntityType.Starships;
+}
+
+export interface Vehicle extends RawVehicle {
+  uuid: string;
+  entityType: EntityType.Vehicles;
+}
+
+export interface Species extends RawSpecies {
+  uuid: string;
+  entityType: EntityType.Species;
+}
+
+export interface Planet extends RawPlanet {
+  uuid: string;
+  entityType: EntityType.Planets;
 }
 
 export type Entity = People | Film | Starship | Vehicle | Species | Planet;
