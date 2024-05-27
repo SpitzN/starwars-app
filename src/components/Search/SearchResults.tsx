@@ -1,9 +1,8 @@
 import { useSearchStore } from "@/store/searchStore";
 import SearchResultItem from "./SearchResultItem";
 import { useNavigate } from "react-router-dom";
-import { Entity } from "@/types/entity.types";
+import { Entity, EntityType } from "@/types/entity.types";
 import { API_BASE_URL } from "@/constants";
-import { Separator } from "@/components/ui/separator";
 import { ArrowRightCircle } from "lucide-react";
 import {
   Table,
@@ -38,11 +37,12 @@ function SearchResults() {
         Object.keys(results).map((category) => (
           <Table key={category} className="p-2">
             <TableHeader>
-              <TableHead className="text-lg font-semibold capitalize">
-                {category}
-              </TableHead>
+              <TableRow>
+                <TableHead className="text-lg font-semibold capitalize">
+                  {category}
+                </TableHead>
+              </TableRow>
             </TableHeader>
-            <Separator />
             <TableBody>
               {results[category].map((result: Entity) => (
                 <TableRow
@@ -51,18 +51,23 @@ function SearchResults() {
                   className="cursor-pointer"
                 >
                   <TableCell className="py-1">
-                    <SearchResultItem result={result} searchTerm={searchTerm} />
+                    <SearchResultItem
+                      result={result}
+                      searchTerm={searchTerm}
+                      entityType={category as EntityType}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
-              <TableCell
-                className="text-blue-500 cursor-pointer flex justify-start items-center gap-3"
-                onClick={() => handleViewAllClick(category)}
-              >
-                View All {category}
-                <ArrowRightCircle size={16} />
-              </TableCell>
-              <Separator />
+              <TableRow>
+                <TableCell
+                  className="text-blue-500 cursor-pointer flex justify-start items-center gap-3"
+                  onClick={() => handleViewAllClick(category)}
+                >
+                  View All {category}
+                  <ArrowRightCircle size={16} />
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         ))}

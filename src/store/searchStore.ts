@@ -10,6 +10,7 @@ interface SearchState {
   error: string | null;
   setSearchTerm: (term: string) => void;
   fetchResults: (term: string) => void;
+  clearResults: () => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -39,4 +40,5 @@ export const useSearchStore = create<SearchState>((set) => ({
       set({ error: "Failed to fetch results", loading: false });
     }
   },
+  clearResults: () => set({ results: {}, searchTerm: "" }),
 }));

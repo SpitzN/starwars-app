@@ -12,13 +12,16 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import { Entity } from "@/types/entity.types";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "@/constants";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-function DataTable<TData, TValue>({
+function DataTable<TData extends Entity, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -27,6 +30,13 @@ function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const navigate = useNavigate();
+
+  const handleRowClick = (entity: Entity) => {
+    const relativeUrl = entity.url.replace(API_BASE_URL, "");
+    navigate(`/entity/${relativeUrl}`);
+  };
 
   return (
     <Table className="min-w-full bg-white">
@@ -52,11 +62,21 @@ function DataTable<TData, TValue>({
             key={row.id}
             className="group hover:bg-gray-100 hover:cursor-pointer"
           >
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} className="py-2">
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
+            {row.getVisibleCells().map((cell) =>
+              cell.column.id === "actions" ? (
+                <TableCell key={cell.id} className="py-2">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ) : (
+                <TableCell
+                  key={cell.id}
+                  className="py-2"
+                  onClick={() => handleRowClick(row.original)}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              )
+            )}
           </TableRow>
         ))}
       </TableBody>

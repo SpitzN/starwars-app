@@ -7,12 +7,16 @@ import useDebounce from "@/hooks/useDebounce";
 function SearchField() {
   const [term, setTerm] = useState("");
   const debouncedTerm = useDebounce(term, 300);
-  const { setSearchTerm, fetchResults } = useSearchStore();
+  const { setSearchTerm, fetchResults, clearResults } = useSearchStore();
 
   useEffect(() => {
-    setSearchTerm(debouncedTerm);
-    fetchResults(debouncedTerm);
-  }, [debouncedTerm, setSearchTerm, fetchResults]);
+    if (debouncedTerm === "") {
+      clearResults();
+    } else {
+      setSearchTerm(debouncedTerm);
+      fetchResults(debouncedTerm);
+    }
+  }, [debouncedTerm, setSearchTerm, fetchResults, clearResults]);
 
   return (
     <div className="relative">

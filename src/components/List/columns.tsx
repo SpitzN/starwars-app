@@ -4,6 +4,7 @@ import DataTableActions from "./DataTableActions";
 
 const getActionsColumn = (entityType: EntityType): ColumnDef<Entity> => ({
   header: "Actions",
+  id: "actions",
   cell: ({ row }) => (
     <DataTableActions entity={row.original} entityType={entityType} />
   ),
