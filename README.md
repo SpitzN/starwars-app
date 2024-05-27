@@ -93,6 +93,7 @@ vite
 
 The project structure is organized as follows:
 
+```bash
 src/
 |-- components/
 | |-- ui/
@@ -107,6 +108,7 @@ src/
 |-- store/
 |-- types/
 |-- utils/
+```
 
 ## Components
 
