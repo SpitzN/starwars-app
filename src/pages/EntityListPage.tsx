@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import EntityList from "../components/List/List";
-import { mapStringToEntityType } from "@/utils/entityTypeMapper";
+import List from "@/components/List";
+import { mapStringToEntityType } from "@/utils/entityUtils";
 
 const EntityListPage: React.FC = () => {
   const { type } = useParams<{ type: string }>();
@@ -14,7 +14,7 @@ const EntityListPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <EntityList entityType={entityType} />
+      <List entityType={entityType} />
     </div>
   );
 };

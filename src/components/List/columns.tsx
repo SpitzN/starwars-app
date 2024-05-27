@@ -51,6 +51,26 @@ export const planetColumns: ColumnDef<Entity>[] = [
     header: "Population",
     accessorKey: "population",
   },
+  {
+    header: "Diameter",
+    accessorKey: "diameter",
+  },
+  {
+    header: "Climate",
+    accessorKey: "climate",
+  },
+  {
+    header: "Gravity",
+    accessorKey: "gravity",
+  },
+  {
+    header: "Terrain",
+    accessorKey: "terrain",
+  },
+  {
+    header: "Surface Water",
+    accessorKey: "surface_water",
+  },
   getActionsColumn(EntityType.Planets),
 ];
 
@@ -62,6 +82,18 @@ export const filmColumns: ColumnDef<Entity>[] = [
   {
     header: "Director",
     accessorKey: "director",
+  },
+  {
+    header: "Producer",
+    accessorKey: "producer",
+  },
+  {
+    header: "Release Date",
+    accessorKey: "release_date",
+  },
+  {
+    header: "Opening Crawl",
+    accessorKey: "opening_crawl",
   },
   getActionsColumn(EntityType.Films),
 ];
@@ -75,6 +107,18 @@ export const starshipColumns: ColumnDef<Entity>[] = [
     header: "Model",
     accessorKey: "model",
   },
+  {
+    header: "Manufacturer",
+    accessorKey: "manufacturer",
+  },
+  {
+    header: "Cost in Credits",
+    accessorKey: "cost_in_credits",
+  },
+  {
+    header: "Length",
+    accessorKey: "length",
+  },
   getActionsColumn(EntityType.Starships),
 ];
 
@@ -87,6 +131,34 @@ export const speciesColumns: ColumnDef<Entity>[] = [
     header: "Classification",
     accessorKey: "classification",
   },
+  {
+    header: "Designation",
+    accessorKey: "designation",
+  },
+  {
+    header: "Average Height",
+    accessorKey: "average_height",
+  },
+  {
+    header: "Average Lifespan",
+    accessorKey: "average_lifespan",
+  },
+  {
+    header: "Language",
+    accessorKey: "language",
+  },
+  {
+    header: "Skin colors",
+    accessorKey: "skin_colors",
+  },
+  {
+    header: "Hair colors",
+    accessorKey: "hair_colors",
+  },
+  {
+    header: "Eye colors",
+    accessorKey: "eye_colors",
+  },
   getActionsColumn(EntityType.Species),
 ];
 
@@ -98,6 +170,38 @@ export const vehicleColumns: ColumnDef<Entity>[] = [
   {
     header: "Model",
     accessorKey: "model",
+  },
+  {
+    header: "Manufacturer",
+    accessorKey: "manufacturer",
+  },
+  {
+    header: "Cost in Credits",
+    accessorKey: "cost_in_credits",
+  },
+  {
+    header: "Length",
+    accessorKey: "length",
+  },
+  {
+    header: "Max Atmosphering Speed",
+    accessorKey: "max_atmosphering_speed",
+  },
+  {
+    header: "Crew",
+    accessorKey: "crew",
+  },
+  {
+    header: "Passengers",
+    accessorKey: "passengers",
+  },
+  {
+    header: "Cargo Capacity",
+    accessorKey: "cargo_capacity",
+  },
+  {
+    header: "Consumables",
+    accessorKey: "consumables",
   },
   getActionsColumn(EntityType.Vehicles),
 ];

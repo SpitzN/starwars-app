@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { EntityType } from "@/types/entity.types";
 import { useEntityStore } from "@/store/entityStore";
-import EntityForm from "./EntityForm";
+import EntityForm from "../EntityForm";
 import DataTable from "./DataTable";
 import PaginationControls from "./PaginationControls";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -19,7 +19,7 @@ interface EntityListProps {
   entityType: EntityType;
 }
 
-function EntityList({ entityType }: EntityListProps) {
+function List({ entityType }: EntityListProps) {
   const { entities, fetchEntities, loading, error, count } = useEntityStore(
     (state) => ({
       entities: state.entities,
@@ -80,6 +80,7 @@ function EntityList({ entityType }: EntityListProps) {
                   Create {entityType}
                 </Button>
               </DialogTrigger>
+
               <EntityForm
                 entityType={entityType}
                 isEditing={false}
@@ -93,4 +94,4 @@ function EntityList({ entityType }: EntityListProps) {
   );
 }
 
-export default EntityList;
+export default List;

@@ -1,8 +1,8 @@
 import { useEntityStore } from "@/store/entityStore";
-import EntityForm from "./EntityForm";
-import { Button } from "../ui/button";
+import EntityForm from "@/components/EntityForm";
+import { Button } from "@/components/ui/button";
 import { EntityType, Entity } from "@/types/entity.types";
-import { Dialog, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 
 interface DataTableActionsProps {
