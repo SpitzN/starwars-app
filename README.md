@@ -30,6 +30,13 @@ build: Builds the application using TypeScript and Vite.
 lint: Runs ESLint on the project.
 preview: Previews the built application using Vite.
 
+to run the project:
+
+```bash
+npm run dev
+```
+
+
 ```bash
 {
 "scripts": {
