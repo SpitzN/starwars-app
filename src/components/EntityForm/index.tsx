@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEntityStore } from "@/store/entityStore";
-import { Entity, EntityType } from "@/types/entity.types";
+import { Entity, EntityFormProps } from "@/types";
 import {
   DialogPortal,
   DialogContent,
@@ -11,28 +11,17 @@ import {
 import { Button } from "@/components/ui/button";
 import FormField from "./FormField";
 import { fieldMapping, getDefaultValues } from "@/utils/entityUtils";
-
-interface EntityFormProps<T extends Entity> {
-  entityType: EntityType;
-  isEditing: boolean;
-  entity?: T;
-  onClose: (open: boolean) => void;
-}
+import { cn } from "@/lib/utils";
 
 function EntityForm<T extends Entity>({
   entityType,
-  isEditing,
   entity,
+  isEditing = false,
   onClose,
 }: EntityFormProps<T>) {
-  const [formData, setFormData] = useState<T>(
-    entity || (getDefaultValues(entityType) as T)
-  );
-
-  const { addEntity, updateEntity } = useEntityStore((state) => ({
-    addEntity: state.addEntity,
-    updateEntity: state.updateEntity,
-  }));
+  const [formData, setFormData] = useState<T>(entity || (getDefaultValues(entityType) as T));
+  const addEntity = useEntityStore((state) => state.addEntity);
+  const updateEntity = useEntityStore((state) => state.updateEntity);
 
   useEffect(() => {
     if (entity) {
@@ -73,9 +62,9 @@ function EntityForm<T extends Entity>({
 
   return (
     <DialogPortal>
-      <DialogContent className="sm:max-w-3/6 overflow-scroll max-h-96">
+      <DialogContent className="sm:max-w-3/6 overflow-scroll max-h-[80vh] bg-card border-theme-accent/20">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="font-orbitron text-2xl text-theme-primary">
             {isEditing ? "Edit" : "Create"} {entityType}
           </DialogTitle>
           <DialogDescription>
@@ -83,19 +72,26 @@ function EntityForm<T extends Entity>({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           {renderFields()}
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end gap-4 mt-6">
             <Button
-              onClick={() => onClose(false)}
               type="button"
-              className="mr-4"
+              variant="ghost"
+              onClick={() => onClose(false)}
+              className="text-theme-primary hover:bg-theme-primary/10"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className={cn(
+                "bg-theme-primary hover:bg-theme-primary/90",
+                "relative after:absolute after:inset-0",
+                "after:rounded-md after:shadow-[0_0_15px_rgba(0,191,255,0.3)]",
+                "after:opacity-0 hover:after:opacity-100",
+                "after:transition-opacity"
+              )}
             >
               {isEditing ? "Update" : "Create"}
             </Button>

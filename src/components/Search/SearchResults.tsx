@@ -1,76 +1,70 @@
+import { useCallback, useEffect } from "react";
 import { useSearchStore } from "@/store/searchStore";
-import SearchResultItem from "./SearchResultItem";
 import { useNavigate } from "react-router-dom";
-import { Entity, EntityType } from "@/types/entity.types";
+import { Entity } from "@/types";
 import { API_BASE_URL } from "@/constants";
-import { ArrowRightCircle } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { ErrorMessage } from "@/components/shared/ErrorMessage";
+import { CategoryCard } from "./CategoryCard";
 
 function SearchResults() {
-  const { results, searchTerm, loading, error } = useSearchStore();
   const navigate = useNavigate();
+  const searchTerm = useSearchStore((state) => state.searchTerm);
+  const results = useSearchStore((state) => state.results);
+  const loading = useSearchStore((state) => state.loading);
+  const error = useSearchStore((state) => state.error);
+  const fetchResults = useSearchStore((state) => state.fetchResults);
+  const clearResults = useSearchStore((state) => state.clearResults);
 
-  if (!searchTerm) return null;
+  const handleViewAllClick = useCallback(
+    (category: string) => {
+      navigate(`/entities/${category}`);
+    },
+    [navigate]
+  );
 
-  const handleViewAllClick = (category: string) => {
-    navigate(`/entities/${category}`);
-  };
+  const handleResultClick = useCallback(
+    (entity: Entity) => {
+      const relativeUrl = entity.url.replace(API_BASE_URL, "");
+      navigate(`entity/${relativeUrl}`);
+    },
+    [navigate]
+  );
 
-  const handleResultClick = (entity: Entity) => {
-    const relativeUrl = entity.url.replace(API_BASE_URL, "");
-    navigate(`entity/${relativeUrl}`);
-  };
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      clearResults();
+    } else {
+      fetchResults(searchTerm);
+    }
+  }, [searchTerm, fetchResults, clearResults]);
+
+  if (!searchTerm.trim()) return null;
 
   return (
-    <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded mt-1 z-10">
-      {loading && <div className="p-2 text-center">Loading...</div>}
-      {error && <div className="p-2 text-center text-red-500">{error}</div>}
-      {!loading &&
-        !error &&
-        Object.keys(results).map((category) => (
-          <Table key={category} className="p-2">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-lg font-semibold capitalize">
-                  {category}
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {results[category].map((result: Entity) => (
-                <TableRow
-                  key={result.url}
-                  onClick={() => handleResultClick(result)}
-                  className="cursor-pointer"
-                >
-                  <TableCell className="py-1">
-                    <SearchResultItem
-                      result={result}
-                      searchTerm={searchTerm}
-                      entityType={category as EntityType}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-              <TableRow>
-                <TableCell
-                  className="text-blue-500 cursor-pointer flex justify-start items-center gap-3"
-                  onClick={() => handleViewAllClick(category)}
-                >
-                  View All {category}
-                  <ArrowRightCircle size={16} />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        ))}
+    <div className="w-full mt-4 space-y-4">
+      {loading ? (
+        <LoadingSpinner size="sm" />
+      ) : error ? (
+        <ErrorMessage message={error} />
+      ) : (
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          role="grid"
+          aria-label="Search Results"
+        >
+          {Object.keys(results).map((category) => (
+            <CategoryCard
+              key={category}
+              category={category}
+              results={results[category]}
+              searchTerm={searchTerm}
+              onResultClick={handleResultClick}
+              onViewAll={handleViewAllClick}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

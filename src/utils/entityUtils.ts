@@ -1,10 +1,6 @@
+// src/utils/entityUtils.ts
 import { v4 as uuidv4 } from "uuid";
-import { EntityType, RawEntity, Entity } from "@/types/entity.types";
-
-interface FieldConfig {
-  label: string;
-  name: string;
-}
+import { EntityType, RawEntity, Entity, FieldConfig } from "@/types";
 
 export function mapStringToEntityType(type: string): EntityType | null {
   switch (type.toLowerCase()) {
@@ -164,10 +160,7 @@ export const getDefaultValues = (entityType: EntityType): Partial<Entity> => {
   }
 };
 
-export function transformEntity(
-  rawEntity: RawEntity,
-  entityType: EntityType
-): Entity {
+export function transformEntity(rawEntity: RawEntity, entityType: EntityType): Entity {
   return {
     ...rawEntity,
     uuid: uuidv4(),

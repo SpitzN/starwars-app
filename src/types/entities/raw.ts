@@ -1,11 +1,3 @@
-export enum EntityType {
-  People = "people",
-  Planets = "planets",
-  Films = "films",
-  Starships = "starships",
-  Vehicles = "vehicles",
-  Species = "species",
-}
 export interface RawPeople {
   name: string;
   birth_year: string;
@@ -117,44 +109,4 @@ export interface RawPlanet {
   edited: string;
 }
 
-export type RawEntity =
-  | RawPeople
-  | RawFilm
-  | RawStarship
-  | RawVehicle
-  | RawSpecies
-  | RawPlanet;
-
-// types/entity.types.ts
-
-export interface People extends RawPeople {
-  uuid: string;
-  entityType: EntityType.People;
-}
-
-export interface Film extends RawFilm {
-  uuid: string;
-  entityType: EntityType.Films;
-}
-
-export interface Starship extends RawStarship {
-  uuid: string;
-  entityType: EntityType.Starships;
-}
-
-export interface Vehicle extends RawVehicle {
-  uuid: string;
-  entityType: EntityType.Vehicles;
-}
-
-export interface Species extends RawSpecies {
-  uuid: string;
-  entityType: EntityType.Species;
-}
-
-export interface Planet extends RawPlanet {
-  uuid: string;
-  entityType: EntityType.Planets;
-}
-
-export type Entity = People | Film | Starship | Vehicle | Species | Planet;
+export type RawEntity = RawPeople | RawFilm | RawStarship | RawVehicle | RawSpecies | RawPlanet;

@@ -1,13 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Entity, EntityType } from "@/types/entity.types";
+import { Entity, EntityType } from "@/types";
 import DataTableActions from "./DataTableActions";
 
 const getActionsColumn = (entityType: EntityType): ColumnDef<Entity> => ({
   header: "Actions",
   id: "actions",
-  cell: ({ row }) => (
-    <DataTableActions entity={row.original} entityType={entityType} />
-  ),
+  cell: ({ row }) => <DataTableActions entity={row.original} entityType={entityType} />,
 });
 
 export const peopleColumns: ColumnDef<Entity>[] = [

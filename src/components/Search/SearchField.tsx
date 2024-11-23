@@ -1,32 +1,39 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchStore } from "@/store/searchStore";
-import SearchResults from "./SearchResults";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
+import { useState } from "react";
+import { Search } from "lucide-react";
 
 function SearchField() {
-  const [term, setTerm] = useState("");
-  const debouncedTerm = useDebounce(term, 300);
-  const { setSearchTerm, fetchResults, clearResults } = useSearchStore();
+  const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
+  const [inputValue, setInputValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const debouncedValue = useDebounce(inputValue, 500);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   useEffect(() => {
-    if (debouncedTerm === "") {
-      clearResults();
-    } else {
-      setSearchTerm(debouncedTerm);
-      fetchResults(debouncedTerm);
-    }
-  }, [debouncedTerm, setSearchTerm, fetchResults, clearResults]);
+    inputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    setSearchTerm(debouncedValue);
+  }, [debouncedValue, setSearchTerm]);
 
   return (
     <div className="relative">
       <Input
         type="text"
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}
+        ref={inputRef}
+        value={inputValue}
+        onChange={handleInputChange}
+        className="pl-10"
         placeholder="Search..."
       />
-      <SearchResults />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
     </div>
   );
 }

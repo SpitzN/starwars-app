@@ -1,24 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
-import { RawEntity, Entity, EntityType } from "@/types/entity.types";
+import { RawEntity, Entity, EntityType, EntityState } from "@/types";
 import { API_BASE_URL } from "@/constants";
 import { transformEntity } from "@/utils/entityUtils";
-
-interface EntityState {
-  entities: Entity[];
-  singleEntity: Entity | null;
-  loading: boolean;
-  error: string | null;
-  next: string | null;
-  previous: string | null;
-  count: number | null;
-  currentPage: number;
-  addEntity: (entity: Entity) => void;
-  removeEntity: (id: string) => void;
-  updateEntity: (id: string, updatedEntity: Entity) => void;
-  fetchEntities: (type: EntityType, pageUrl?: string) => void;
-  fetchSingleEntity: (relativeUrl: string) => void;
-}
 
 export const useEntityStore = create<EntityState>((set) => ({
   entities: [],
@@ -39,9 +23,7 @@ export const useEntityStore = create<EntityState>((set) => ({
     })),
   updateEntity: (id, updatedEntity) =>
     set((state) => ({
-      entities: state.entities.map((entity) =>
-        entity.uuid === id ? updatedEntity : entity
-      ),
+      entities: state.entities.map((entity) => (entity.uuid === id ? updatedEntity : entity)),
     })),
   fetchEntities: async (type: EntityType, pageUrl?: string) => {
     set({ loading: true, error: null });
@@ -49,8 +31,8 @@ export const useEntityStore = create<EntityState>((set) => ({
     try {
       const response = await axios.get(url);
       const page = pageUrl ? new URL(pageUrl).searchParams.get("page") : "1";
-      const transformedEntities = response.data.results.map(
-        (rawEntity: RawEntity) => transformEntity(rawEntity, type)
+      const transformedEntities = response.data.results.map((rawEntity: RawEntity) =>
+        transformEntity(rawEntity, type)
       ) as Entity[];
       set({
         entities: transformedEntities,

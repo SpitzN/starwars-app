@@ -1,30 +1,26 @@
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { FormFieldProps } from "@/types";
 
-interface FormFieldProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type?: string;
-}
-
-function FormField({
-  label,
-  name,
-  value,
-  onChange,
-  type = "text",
-}: FormFieldProps) {
+function FormField({ label, name, value, onChange, type = "text" }: FormFieldProps) {
   return (
-    <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">
+    <div className="mb-6">
+      <label className="block font-orbitron text-sm mb-2 text-primary">
         {label}
         <Input
           type={type}
           name={name}
           value={value}
           onChange={onChange}
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          className={cn(
+            "mt-2 block w-full",
+            "bg-card border-theme-accent/20",
+            "focus:border-theme-primary focus:ring-theme-primary/20",
+            "hover:border-theme-primary/50",
+            "transition-all duration-200",
+            "placeholder:text-muted-foreground",
+            "font-dosis"
+          )}
         />
       </label>
     </div>

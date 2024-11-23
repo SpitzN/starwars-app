@@ -1,17 +1,7 @@
-import { create } from "zustand";
-import { Entity } from "@/types/entity.types";
+import { Entity, SearchState } from "@/types";
 import { api } from "./api";
 import { ENDPOINTS } from "@/constants";
-
-interface SearchState {
-  searchTerm: string;
-  results: { [key: string]: Entity[] };
-  loading: boolean;
-  error: string | null;
-  setSearchTerm: (term: string) => void;
-  fetchResults: (term: string) => void;
-  clearResults: () => void;
-}
+import { create } from "zustand";
 
 export const useSearchStore = create<SearchState>((set) => ({
   searchTerm: "",
@@ -19,14 +9,12 @@ export const useSearchStore = create<SearchState>((set) => ({
   loading: false,
   error: null,
   setSearchTerm: (term) => set({ searchTerm: term }),
+  clearResults: () => set({ results: {}, searchTerm: "" }),
   fetchResults: async (term: string) => {
     set({ loading: true, error: null });
 
     try {
-      const promises = ENDPOINTS.map((endpoint) =>
-        api.get(`${endpoint}?search=${term}`)
-      );
-
+      const promises = ENDPOINTS.map((endpoint) => api.get(`${endpoint}?search=${term}`));
       const responses = await Promise.all(promises);
 
       const results = responses.reduce((acc, response, index) => {
@@ -40,5 +28,4 @@ export const useSearchStore = create<SearchState>((set) => ({
       set({ error: "Failed to fetch results", loading: false });
     }
   },
-  clearResults: () => set({ results: {}, searchTerm: "" }),
 }));
