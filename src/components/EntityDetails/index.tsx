@@ -10,7 +10,7 @@ interface EntityDetailsProps {
   relativeUrl: string;
 }
 
-function EntityDetails({ relativeUrl }: EntityDetailsProps) {
+export function EntityDetails({ relativeUrl }: EntityDetailsProps) {
   const singleEntity = useEntityStore((state) => state.singleEntity);
   const loading = useEntityStore((state) => state.loading);
   const error = useEntityStore((state) => state.error);
@@ -60,5 +60,3 @@ function EntityDetails({ relativeUrl }: EntityDetailsProps) {
     </div>
   );
 }
-
-export default EntityDetails;

@@ -1,5 +1,5 @@
 import { useLogo } from "@/hooks/useLogo";
-const Footer = () => {
+export function Footer() {
   const { hollowLogo } = useLogo();
   return (
     <footer className="px-4 py-12 mt-8 border-muted-foreground border-t-2 w-full">
@@ -15,6 +15,4 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

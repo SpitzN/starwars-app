@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FormFieldProps } from "@/types";
 
-function FormField({ label, name, value, onChange, type = "text" }: FormFieldProps) {
+export function FormField({ label, name, value, onChange, type = "text" }: FormFieldProps) {
   return (
     <div className="mb-6">
       <label className="block font-orbitron text-sm mb-2 text-primary">
@@ -26,5 +26,3 @@ function FormField({ label, name, value, onChange, type = "text" }: FormFieldPro
     </div>
   );
 }
-
-export default FormField;

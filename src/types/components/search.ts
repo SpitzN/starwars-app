@@ -1,15 +1,14 @@
-import { Entity, EntityType } from "../entities";
+import { Entity } from "../entities";
 
 export interface SearchResultItemProps {
   result: Entity;
-  searchTerm: string;
-  entityType: EntityType;
 }
 
-export interface CategoryCardProps {
+export interface SearchResultEntryProps {
+  result: Entity;
+}
+
+export interface SearchCategoryCardProps {
   category: string;
   results: Entity[];
-  searchTerm: string;
-  onResultClick: (result: Entity) => void;
-  onViewAll: (category: string) => void;
 }

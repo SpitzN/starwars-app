@@ -6,7 +6,7 @@ interface ErrorMessageProps {
   className?: string;
 }
 
-export const ErrorMessage = ({ message, variant = "default", className }: ErrorMessageProps) => {
+export function ErrorMessage({ message, variant = "default", className }: ErrorMessageProps) {
   const variants = {
     default: "text-destructive bg-destructive/10 rounded-lg",
     bordered: "bg-destructive/10 text-destructive border border-destructive/20 rounded-lg",
@@ -17,4 +17,4 @@ export const ErrorMessage = ({ message, variant = "default", className }: ErrorM
       <div className={cn("p-4 font-orbitron", variants[variant], className)}>{message}</div>
     </div>
   );
-};
+}

@@ -1,35 +1,16 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchStore } from "@/store/searchStore";
-import { useNavigate } from "react-router-dom";
-import { Entity } from "@/types";
-import { API_BASE_URL } from "@/constants";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { ErrorMessage } from "@/components/shared/ErrorMessage";
-import { CategoryCard } from "./CategoryCard";
+import { SearchCategoryCard } from "./SearchCategoryCard";
 
-function SearchResults() {
-  const navigate = useNavigate();
+export function SearchResults() {
   const searchTerm = useSearchStore((state) => state.searchTerm);
   const results = useSearchStore((state) => state.results);
   const loading = useSearchStore((state) => state.loading);
   const error = useSearchStore((state) => state.error);
   const fetchResults = useSearchStore((state) => state.fetchResults);
   const clearResults = useSearchStore((state) => state.clearResults);
-
-  const handleViewAllClick = useCallback(
-    (category: string) => {
-      navigate(`/entities/${category}`);
-    },
-    [navigate]
-  );
-
-  const handleResultClick = useCallback(
-    (entity: Entity) => {
-      const relativeUrl = entity.url.replace(API_BASE_URL, "");
-      navigate(`entity/${relativeUrl}`);
-    },
-    [navigate]
-  );
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -54,19 +35,10 @@ function SearchResults() {
           aria-label="Search Results"
         >
           {Object.keys(results).map((category) => (
-            <CategoryCard
-              key={category}
-              category={category}
-              results={results[category]}
-              searchTerm={searchTerm}
-              onResultClick={handleResultClick}
-              onViewAll={handleViewAllClick}
-            />
+            <SearchCategoryCard key={category} category={category} results={results[category]} />
           ))}
         </div>
       )}
     </div>
   );
 }
-
-export default SearchResults;

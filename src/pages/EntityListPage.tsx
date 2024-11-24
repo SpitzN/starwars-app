@@ -1,9 +1,8 @@
-import React from "react";
 import { useParams } from "react-router-dom";
-import List from "@/components/List";
+import { List } from "@/components/List";
 import { mapStringToEntityType } from "@/utils/entityUtils";
 
-const EntityListPage: React.FC = () => {
+function EntityListPage() {
   const { type } = useParams<{ type: string }>();
 
   const entityType = type ? mapStringToEntityType(type) : null;
@@ -17,6 +16,6 @@ const EntityListPage: React.FC = () => {
       <List entityType={entityType} />
     </div>
   );
-};
+}
 
 export default EntityListPage;

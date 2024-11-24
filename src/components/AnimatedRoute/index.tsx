@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+export function AnimatedRoute({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -50 }}
@@ -11,6 +12,4 @@ const AnimatedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {children}
     </motion.div>
   );
-};
-
-export default AnimatedRoute;
+}

@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Entity, EntityType } from "@/types";
-import DataTableActions from "./DataTableActions";
+import { DataTableActions } from "./DataTableActions";
 
 const getActionsColumn = (entityType: EntityType): ColumnDef<Entity> => ({
   header: "Actions",

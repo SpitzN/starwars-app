@@ -1,16 +1,15 @@
-import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { AnimatedRoute } from "./components/AnimatedRoute";
+import { Header } from "./components/Layout/Header";
+import { Footer } from "./components/Layout/Footer";
+import { ThemeProvider } from "./components/Theme/ThemeProvider";
 import SearchPage from "./pages/SearchPage";
 import EntityListPage from "./pages/EntityListPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EntityPage from "./pages/EntityPage";
-import { AnimatePresence } from "framer-motion";
-import AnimatedRoute from "./components/AnimatedRoute";
-import Header from "./components/Layout/Header";
-import Footer from "./components/Layout/Footer";
-import { ThemeProvider } from "./components/Theme/ThemeProvider";
 
-const App: React.FC = () => {
+function App() {
   const location = useLocation();
 
   return (
@@ -59,6 +58,6 @@ const App: React.FC = () => {
       </div>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

@@ -9,7 +9,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-function PaginationControls({ entityType, totalPages }: PaginationControlsProps) {
+export function PaginationControls({ entityType, totalPages }: PaginationControlsProps) {
   const next = useEntityStore((state) => state.next);
   const previous = useEntityStore((state) => state.previous);
   const currentPage = useEntityStore((state) => state.currentPage);
@@ -68,5 +68,3 @@ function PaginationControls({ entityType, totalPages }: PaginationControlsProps)
     </Pagination>
   );
 }
-
-export default PaginationControls;

@@ -1,47 +1,19 @@
-import React from "react";
-import { EntityType, People, Film, Planet, Starship, Species, Vehicle } from "@/types";
+import { memo } from "react";
 import { SearchResultItemProps } from "@/types";
+import { highlightText } from "@/utils/highlightText";
+import { useSearchStore } from "@/store/searchStore";
 
-const SearchResultItem: React.FC<SearchResultItemProps> = React.memo(
-  ({ result, searchTerm, entityType }) => {
-    const highlightTerm = React.useCallback((text: string, term: string) => {
-      const parts = text.split(new RegExp(`(${term})`, "gi"));
-      return parts.map((part, index) =>
-        part.toLowerCase() === term.toLowerCase() ? (
-          <span key={index} className="bg-theme-accent/30">
-            {part}
-          </span>
-        ) : (
-          part
-        )
-      );
-    }, []);
+export function SearchResultItem({ result }: SearchResultItemProps) {
+  const searchTerm = useSearchStore((state) => state.searchTerm);
+  const displayText = "title" in result ? result.title : result.name;
 
-    const fieldToDisplay = React.useMemo(() => {
-      switch (entityType) {
-        case EntityType.Films:
-          return (result as Film).title;
-        case EntityType.People:
-          return (result as People).name;
-        case EntityType.Planets:
-          return (result as Planet).name;
-        case EntityType.Starships:
-          return (result as Starship).name;
-        case EntityType.Species:
-          return (result as Species).name;
-        case EntityType.Vehicles:
-          return (result as Vehicle).name;
-        default:
-          return "";
-      }
-    }, [result, entityType]);
-
-    return (
-      <div className="py-1 px-2">
-        <p className="truncate">{highlightTerm(fieldToDisplay, searchTerm)}</p>
+  return (
+    <div className="w-full text-left">
+      <div className="text-sm font-medium font-orbitron">
+        {highlightText(displayText, searchTerm)}
       </div>
-    );
-  }
-);
+    </div>
+  );
+}
 
-export default SearchResultItem;
+export const MemoizedSearchResultItem = memo(SearchResultItem);

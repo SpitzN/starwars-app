@@ -9,11 +9,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import FormField from "./FormField";
+import { FormField } from "./FormField";
 import { fieldMapping, getDefaultValues } from "@/utils/entityUtils";
 import { cn } from "@/lib/utils";
 
-function EntityForm<T extends Entity>({
+export function EntityForm<T extends Entity>({
   entityType,
   entity,
   isEditing = false,
@@ -101,5 +101,3 @@ function EntityForm<T extends Entity>({
     </DialogPortal>
   );
 }
-
-export default EntityForm;

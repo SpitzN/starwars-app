@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { EntityListProps, EntityType } from "@/types";
 import { useEntityStore } from "@/store/entityStore";
-import EntityForm from "../EntityForm";
-import DataTable from "./DataTable";
-import PaginationControls from "./PaginationControls";
+import { EntityForm } from "../EntityForm";
+import { DataTable } from "./DataTable";
+import { PaginationControls } from "./PaginationControls";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { ITEMS_PER_PAGE } from "@/constants";
 import { ErrorMessage } from "@/components/shared/ErrorMessage";
@@ -18,7 +18,7 @@ import {
   vehicleColumns,
 } from "./columns";
 
-function List({ entityType }: EntityListProps) {
+export function List({ entityType }: EntityListProps) {
   const entities = useEntityStore((state) => state.entities);
   const fetchEntities = useEntityStore((state) => state.fetchEntities);
   const loading = useEntityStore((state) => state.loading);
@@ -83,5 +83,3 @@ function List({ entityType }: EntityListProps) {
     </div>
   );
 }
-
-export default List;

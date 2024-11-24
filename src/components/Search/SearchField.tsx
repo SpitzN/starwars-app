@@ -5,7 +5,7 @@ import useDebounce from "@/hooks/useDebounce";
 import { useState } from "react";
 import { Search } from "lucide-react";
 
-function SearchField() {
+export function SearchField() {
   const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -37,5 +37,3 @@ function SearchField() {
     </div>
   );
 }
-
-export default SearchField;

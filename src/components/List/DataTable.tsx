@@ -12,7 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "@/constants";
 import { DataTableProps } from "@/types/components";
 
-function DataTable<TData extends Entity, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends Entity, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -73,5 +76,3 @@ function DataTable<TData extends Entity, TValue>({ columns, data }: DataTablePro
     </div>
   );
 }
-
-export default DataTable;

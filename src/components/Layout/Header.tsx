@@ -20,7 +20,7 @@ const entityLinks = [
   { href: "/entities/species", label: "Species" },
 ];
 
-const Header = () => {
+export function Header() {
   const { fullLogo } = useLogo();
 
   return (
@@ -87,6 +87,4 @@ const Header = () => {
       </nav>
     </header>
   );
-};
-
-export default Header;
+}

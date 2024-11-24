@@ -1,5 +1,5 @@
 import { useEntityStore } from "@/store/entityStore";
-import EntityForm from "@/components/EntityForm";
+import { EntityForm } from "@/components/EntityForm";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DataTableActionsProps } from "@/types";
 
-function DataTableActions({ entity, entityType }: DataTableActionsProps) {
+export function DataTableActions({ entity, entityType }: DataTableActionsProps) {
   const [open, setOpen] = useState(false);
   const removeEntity = useEntityStore((state) => state.removeEntity);
 
@@ -56,5 +56,3 @@ function DataTableActions({ entity, entityType }: DataTableActionsProps) {
     </div>
   );
 }
-
-export default DataTableActions;

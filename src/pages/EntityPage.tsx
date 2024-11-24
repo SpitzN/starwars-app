@@ -1,8 +1,7 @@
-import React from "react";
 import { useParams } from "react-router-dom";
-import EntityDetails from "@/components/EntityDetails";
+import { EntityDetails } from "@/components/EntityDetails";
 
-const EntityPage: React.FC = () => {
+function EntityPage() {
   const { "*": relativeUrl } = useParams<{ "*": string }>();
 
   if (!relativeUrl) {
@@ -10,6 +9,6 @@ const EntityPage: React.FC = () => {
   }
 
   return <EntityDetails relativeUrl={relativeUrl} />;
-};
+}
 
 export default EntityPage;
