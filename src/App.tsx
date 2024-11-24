@@ -14,19 +14,12 @@ function App() {
 
   return (
     <ThemeProvider storageKey="starwars-ui-theme">
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col relative">
         <Header />
         <AnimatePresence mode="wait">
           <main className="flex-1">
             <Routes location={location} key={location.pathname}>
-              <Route
-                path="/"
-                element={
-                  <AnimatedRoute>
-                    <SearchPage />
-                  </AnimatedRoute>
-                }
-              />
+              <Route path="/" element={<SearchPage />} />
               <Route
                 path="/entities/:type"
                 element={

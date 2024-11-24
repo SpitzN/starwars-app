@@ -24,7 +24,7 @@ export function SearchField() {
   }, [debouncedValue, setSearchTerm]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-xl">
       <Input
         type="text"
         ref={inputRef}
